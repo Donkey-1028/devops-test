@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'devops',
         'USER': 'root',
         'PASSWORD': 'testpassword',
-        'HOST': 'localhost',
+        'HOST': 'mysql',
         'PORT': 3306,
     }
 }
