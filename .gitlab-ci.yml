@@ -75,6 +75,7 @@ git_merge:
     - default-docker
   only:
     - master
+  when: manual
 
 docker_build:
   image: docker:latest
@@ -88,4 +89,4 @@ docker_build:
     - echo "docker build"
   tags:
     - default-docker
-  when: manual
+  needs: ["git_merge"]
