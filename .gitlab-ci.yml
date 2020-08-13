@@ -75,7 +75,6 @@ git_merge:
     - default-docker
   only:
     - master
-  when: manual
 
 docker_build:
   image: docker:latest
