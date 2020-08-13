@@ -57,8 +57,7 @@ py_lint:
   tags:
     - default-docker
   only:
-    except:
-      - master
+    - branch
 
 py_test:
   stage: test
@@ -67,8 +66,7 @@ py_test:
   tags:
     - default-docker
   only:
-    except:
-      - master
+    - branch
 
 git_merge:
   stage: merge
@@ -79,7 +77,7 @@ git_merge:
     - echo "git merge"
     - git --version
   tags:
-    - default-dockeri
+    - default-docker
   only:
     - master
 
