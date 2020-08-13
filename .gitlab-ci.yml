@@ -73,8 +73,8 @@ git_merge:
     - git --version
   tags:
     - default-docker
-  only:
-    - master
+  when:
+    - manual
 
 docker_build:
   image: docker:latest
