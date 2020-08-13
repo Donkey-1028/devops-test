@@ -3,6 +3,12 @@
 # https://hub.docker.com/r/library/python
 image: python:3.7
 
+stages:
+  - lint
+  - test
+  - merge
+  - docker-build
+
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
@@ -43,8 +49,56 @@ before_script:
 #
 # and then adding `--settings app.settings.ci` (or similar) to the test command
 
+
+lint:
+  stage:
+    - lint
+  script:
+    - pylint devops
+  tags:
+    - default-docker
+  only:
+    except:
+      - master
+
 test:
+  stage:
+    - test
   script:
     - python manage.py test
   tags:
     - default-docker
+  only:
+    except:
+      - master
+
+merge:
+  stage:
+    - merge
+  before_script:
+    - echo "git install"
+    - echo "git login"
+  script:
+    - echo "git merge"
+    - git --version
+  tags:
+    - default-dockeri
+  only:
+    - master
+
+docker-build:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage:
+    - docker-build
+  before_script:
+    - docker --version
+    - echo "docker login"
+  script:
+    - echo "docker build"
+  tags:
+    - default-docker
+  only: 
+    - master
+
