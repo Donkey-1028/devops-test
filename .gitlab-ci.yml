@@ -51,8 +51,7 @@ before_script:
 
 
 py_lint:
-  stage:
-    - lint
+  stage: lint
   script:
     - pylint devops
   tags:
@@ -62,8 +61,7 @@ py_lint:
       - master
 
 py_test:
-  stage:
-    - test
+  stage: test
   script:
     - python manage.py test
   tags:
@@ -73,8 +71,7 @@ py_test:
       - master
 
 git_merge:
-  stage:
-    - merge
+  stage: merge
   before_script:
     - echo "git install"
     - echo "git login"
@@ -90,8 +87,7 @@ docker_build:
   image: docker:latest
   services:
     - docker:dind
-  stage:
-    - docker-build
+  stage: docker-build
   before_script:
     - docker --version
     - echo "docker login"
@@ -99,6 +95,4 @@ docker_build:
     - echo "docker build"
   tags:
     - default-docker
-  only: 
-    - master
-
+  when: manual
