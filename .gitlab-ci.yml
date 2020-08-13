@@ -64,7 +64,7 @@ py_test:
     - branch
 
 git_merge:
-  stage: lint
+  stage: merge
   before_script:
     - echo "git install"
     - echo "git login"
