@@ -78,6 +78,9 @@ git_merge:
   tags:
     - default-docker
   when: manual
+  only:
+    variables:
+      - $GITLAB_USER_NAME == "DAAA"
 
 docker_build:
   image: docker:latest
