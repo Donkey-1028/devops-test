@@ -80,7 +80,7 @@ git_merge:
   when: manual
   only:
     variables:
-      - $GITLAB_USER_NAME == "DAAA"
+      - $GITLAB_USER_NAME == "Donkey-1028"
 
 docker_build:
   image: docker:latest
