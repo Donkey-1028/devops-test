@@ -94,4 +94,4 @@ docker_build:
     - echo "docker build"
   tags:
     - default-docker
-      #needs: ["git_merge"]
+  dependencies: ["git_merge"]
