@@ -68,6 +68,9 @@ git_merge:
   before_script:
     - echo "git install"
     - echo "git login"
+    - echo "$CI_COMMIT_REF_NAME"
+    - echo "$CI_COMMIT_BRANCH"
+    - echo "$CI_DEPLOY_USER"
   script:
     - echo "git merge"
     - git --version
