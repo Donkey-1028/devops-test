@@ -71,6 +71,7 @@ git_merge:
     - echo "$CI_COMMIT_REF_NAME"
     - echo "$CI_COMMIT_BRANCH"
     - echo "$CI_DEPLOY_USER"
+    - echo "$GITLAB_USER_NAME"
   script:
     - echo "git merge"
     - git --version
