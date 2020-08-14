@@ -94,4 +94,7 @@ docker_build:
     - echo "docker build"
   tags:
     - default-docker
-  dependencies: ["git_merge"]
+  only:
+    variables:
+      - $GITLAB_USER_NAME == "Donkey-1028"
+  needs: ["git_merge"]
