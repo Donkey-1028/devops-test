@@ -71,7 +71,6 @@ git_merge:
    - echo $GITLAB_DEPLOY_KEY > ~/.ssh/id_rsa
    - chmod 400 ~/.ssh/id_rsa
    - echo $GITLAB_PUBLIC_KEY > ~/.ssh/known_hosts
-   // Steal the identity of person that triggered the build
    - git config --global user.email "$GITLAB_USER_EMAIL"
    - git config --global user.name "$GITLAB_USER_ID"
    - git remote set-url origin <ssh-repository-url>
