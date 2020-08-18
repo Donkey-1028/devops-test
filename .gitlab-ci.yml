@@ -67,20 +67,20 @@ git_merge:
   stage: merge
   image: alpine
   before_script:
-   - echo "before delete"
-  script:
-   - apk add --update git openssh-client
-   - mkdir ~/.ssh
-   - echo $GITLAB_DEPLOY_KEY > ~/.ssh/id_rsa
-   - chmod 400 ~/.ssh/id_rsa
-   - echo $GITLAB_PUBLIC_KEY > ~/.ssh/known_hosts
-   - git config --global user.email "$GITLAB_USER_EMAIL"
-   - git config --global user.name "$GITLAB_USER_ID"
-   - git remote set-url origin git@gitlab.com:Donkey-1028/devops-test.git 
-   - git checkout master
-   - git reset --hard origin/master
-   - git merge $CI_BUILD_REF
-   - git push origin master
+    - apk add --update git openssh-client
+    - mkdir ~/.ssh
+    - ssh-keyscan -p 2222 <gitlab.com> > ~/.ssh/known_hosts
+    - eval `ssh-agent -s`
+    - ssh-add <(echo "$GITLAB_DEPLOY_KEY")
+    - ssh -T git@<gitlab.domain.com> -p 2222
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_ID"
+    - git remote set-url origin ssh://git@<gitlab.com>:2222/Donkey-1028/devops-test.git
+  script:    
+    - git checkout master
+    - git reset --hard origin/master
+    - git merge $CI_BUILD_REF
+    - git push origin master
   tags:
     - default-docker
   when: manual
