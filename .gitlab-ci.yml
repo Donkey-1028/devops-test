@@ -66,6 +66,8 @@ py_test:
 git_merge:
   stage: merge
   image: alpine
+  before_script:
+   - echo "before delete"
   script:
    - apk add --update git openssh-client
    - mkdir ~/.ssh
