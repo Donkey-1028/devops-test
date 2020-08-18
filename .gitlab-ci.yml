@@ -65,6 +65,7 @@ py_test:
 
 git_merge:
   stage: merge
+  image: alpine
   script:
    - apk add --update git openssh-client
    - mkdir ~/.ssh
