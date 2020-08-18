@@ -76,7 +76,7 @@ git_merge:
    - echo $GITLAB_PUBLIC_KEY > ~/.ssh/known_hosts
    - git config --global user.email "$GITLAB_USER_EMAIL"
    - git config --global user.name "$GITLAB_USER_ID"
-   - git remote set-url origin git@gitlab.com/Donkey-1028/devops-test.git
+   - git remote add origin https://gitlab.com/Donkey-1028/devops-test.git
    - git checkout master
    - git reset --hard origin/master
    - git merge $CI_BUILD_REF
