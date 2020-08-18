@@ -65,16 +65,20 @@ py_test:
 
 git_merge:
   stage: merge
-  before_script:
-    - echo "$CI_COMMIT_BRANCH"
-    - echo "$GITLAB_USER_NAME"
   script:
-    - dir
-    - git config --list
-    - git checkout origin/3-merge-test
-    - git checkout master
-    - git merge origin/3-merge-test
-    - git push origin master
+   - apk add --update git openssh-client
+   - mkdir ~/.ssh
+   - echo $GITLAB_DEPLOY_KEY > ~/.ssh/id_rsa
+   - chmod 400 ~/.ssh/id_rsa
+   - echo $GITLAB_PUBLIC_KEY > ~/.ssh/known_hosts
+   // Steal the identity of person that triggered the build
+   - git config --global user.email "$GITLAB_USER_EMAIL"
+   - git config --global user.name "$GITLAB_USER_ID"
+   - git remote set-url origin <ssh-repository-url>
+   - git checkout master
+   - git reset --hard origin/master
+   - git merge $CI_BUILD_REF
+   - git push origin master
   tags:
     - default-docker
   when: manual
