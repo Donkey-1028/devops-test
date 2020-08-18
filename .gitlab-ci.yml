@@ -72,7 +72,7 @@ git_merge:
     - git config --list
     - git checkout origin/3-merge-test
     - git checkout master
-    - git merge 3-merge-test
+    - git merge origin/3-merge-test
   tags:
     - default-docker
   when: manual
