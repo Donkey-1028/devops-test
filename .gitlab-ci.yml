@@ -69,6 +69,7 @@ git_merge:
     - echo "$CI_COMMIT_BRANCH"
     - echo "$GITLAB_USER_NAME"
   script:
+    - pwd
     - git config --list
     - git checkout origin/3-merge-test
     - git checkout master
