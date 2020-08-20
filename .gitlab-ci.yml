@@ -7,7 +7,8 @@ stages:
   - lint
   - test
   - merge
-  - docker-build
+  - build
+  - push
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -63,35 +64,13 @@ py_test:
   only:
     - branch
 
-git_merge:
-  stage: merge
-  image: alpine
-  before_script:
-   - echo "bf sc"
-  script:
-   - apk add --update git openssh-client
-   - mkdir ~/.ssh
-   - echo $GITLAB_DEPLOY_KEY > ~/.ssh/id_rsa
-   - chmod 400 ~/.ssh/id_rsa
-   - echo $GITLAB_PUBLIC_KEY > ~/.ssh/known_hosts
-   - git config --global user.email "$GITLAB_USER_EMAIL"
-   - git config --global user.name "$GITLAB_USER_ID"
-   - git checkout master
-   - git reset --hard origin/master
-   - git merge $CI_BUILD_REF
-   - git push origin master 
-  tags:
-    - default-docker
-  when: manual
-  only:
-    refs:
-      - branches
+# owasp를 통한 code 취약성 검사 추가
 
 docker_build:
   image: docker:latest
   services:
     - docker:dind
-  stage: docker-build
+  stage: build
   before_script:
     - docker --version
     - echo "docker login"
@@ -100,6 +79,15 @@ docker_build:
   tags:
     - default-docker
   only:
-    variables:
-      - $GITLAB_USER_NAME == "Donkey-1028"
-  needs: ["git_merge"]
+    - master
+
+docker_push:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: push
+  before_script:
+    - echo "docker login"
+  script:
+    - echo "docker push"
+  when: on_success
