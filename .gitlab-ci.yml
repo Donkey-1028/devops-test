@@ -64,11 +64,8 @@ py_test:
   only:
     - branch
 
-<<<<<<< HEAD
-=======
 # owasp를 통한 code 취약성 검사 추가
 
->>>>>>> 6c57f7f8d2aff7ad419bf26996912c312c69b451
 docker_build:
   image: docker:latest
   services:
