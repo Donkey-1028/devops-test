@@ -74,6 +74,8 @@ docker_build:
   before_script:
     - docker --version
     - echo "docker login"
+    - docker images
+    - docker ps -a
   script:
     - docker build -t test .
   tags:
