@@ -71,7 +71,7 @@ docker_build:
   before_script:
     - docker --version
   script:  
-    - docker build -t test .
+    - docker build -t "$CI_REGISTRY_IMAGE" .
   tags:
     - default-shell
   only:
@@ -82,9 +82,7 @@ docker_push:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY 
   script:
-    - echo "$CI_REGISTRY_IMAGE"
-    - echo "test"
-  when: on_success
+    - docker push "$CI_REGISTRY_IMAGE"
   tags:
     - default-shell
   only:
