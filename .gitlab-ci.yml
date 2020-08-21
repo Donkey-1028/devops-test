@@ -44,11 +44,13 @@ before_script:
 py_lint:
   stage: lint
   script:
+    - docker images
+    - docker ps
     - pylint devops
   tags:
     - default-docker
   only:
-    - branch
+    - branches
 
 py_test:
   stage: test
@@ -62,7 +64,7 @@ py_test:
   tags:
     - default-docker
   only:
-    - branch
+    - branches
 
 # owasp를 통한 code 취약성 검사 추가
 
