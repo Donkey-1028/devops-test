@@ -68,14 +68,14 @@ py_test:
 
 docker_build:
   image: docker:latest
-  #services:
-  #  - docker:dind
+  services:
+    - docker:dind
   stage: build
   before_script:
     - docker --version
     - echo "docker login"
   script:
-    - docker build -t test -f Dockerfile .
+    - docker build -t test .
   tags:
     - default-docker
   only:
