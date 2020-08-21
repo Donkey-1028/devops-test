@@ -81,7 +81,7 @@ docker_build:
   script:
     - docker build -t test .
   tags:
-    - default-docker
+    - default-shell
   only:
     - master
 
@@ -95,3 +95,5 @@ docker_push:
   script:
     - echo "docker push"
   when: on_success
+  tags:
+    - default-shell
