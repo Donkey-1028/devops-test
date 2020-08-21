@@ -63,26 +63,6 @@ py_test:
   only:
     - branch
 
-git_merge:
-  stage: merge
-  image: alpine
-  before_script:
-    - echo "git install"
-    - echo "git login"
-    - echo "$CI_COMMIT_REF_NAME"
-    - echo "$CI_COMMIT_BRANCH"
-    - echo "$CI_DEPLOY_USER"
-    - echo "$GITLAB_USER_NAME"
-  script:
-    - echo "git merge"
-    - git --version
-  tags:
-    - default-docker
-  when: manual
-  only:
-    variables:
-      - $GITLAB_USER_NAME == "Donkey-1028"
-
 docker_build:
   image: docker:latest
   services:
@@ -92,7 +72,7 @@ docker_build:
     - docker --version
     - echo "docker login"
   script:
-    - echo "docker build"
+    - docker build -t test -f Dockerfile .
   tags:
     - default-docker
   only:
