@@ -67,9 +67,9 @@ py_test:
 # owasp를 통한 code 취약성 검사 추가
 
 docker_build:
-  image: docker:latest
-  services:
-    - docker:dind
+  #image: docker:latest
+  #services:
+  #  - docker:dind
   stage: build
   before_script:
     - docker --version
