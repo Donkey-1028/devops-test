@@ -6,7 +6,6 @@ image: python:3.7
 stages:
   - lint
   - test
-  - merge
   - build
   - push
 
@@ -48,7 +47,7 @@ py_lint:
   tags:
     - default-docker
   only:
-    - branch
+    - branches
 
 py_test:
   stage: test
@@ -62,23 +61,15 @@ py_test:
   tags:
     - default-docker
   only:
-    - branch
+    - branches
 
 # owasp를 통한 code 취약성 검사 추가
 
 docker_build:
-  #image: docker:latest
-  #services:
-  #  - docker:dind
   stage: build
   before_script:
     - docker --version
-    - echo "docker login"
-    - docker images
-    - docker ps -a
-    - dir
-    - ls
-  script:
+  script:  
     - docker build -t test .
   tags:
     - default-shell
@@ -86,14 +77,13 @@ docker_build:
     - master
 
 docker_push:
-  image: docker:latest
-  services:
-    - docker:dind
   stage: push
   before_script:
-    - echo "docker login"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY 
   script:
-    - echo "docker push"
+    - echo "$CI_REGISTRY_IMAGE" 
   when: on_success
   tags:
     - default-shell
+  only:
+    - master
