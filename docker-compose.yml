@@ -26,3 +26,9 @@ services:
       - db
     links:
       - "db:mysql"
+  zap:
+    image: owasp/zap2docker-stable
+    container_name: zap
+    command: zap-baseline.py -t http://web:8000
+    links:
+      - "web"
