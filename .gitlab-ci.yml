@@ -70,7 +70,7 @@ test:
   services:
     - name: mysql:5.7
       command:
-        - mysql --version
+        - echo "mysql test"
   before_script:
     - echo "owasp test"
   script:
