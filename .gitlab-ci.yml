@@ -66,15 +66,15 @@ py_test:
     - master
 
 py_zap:
-  image: owasp/zap2docker-stable
-  stage: zap
+  image: docker:latest
+  stage: test
   services:
     - name: mysql:5.7
-    - name: docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  variables:
+    MSYSQL_ROOT_PASSWORD: "testpassword"
+    MYSQL_DATABASE: "devops"
   script:
-    - echo "test"
+    - python manage.py runserver
   tags:
     - default-docker
   only:
