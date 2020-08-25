@@ -66,17 +66,15 @@ py_test:
     - master
 
 py_zap:
-  stage: test
-  services:
-    - name: mysql:5.7
-    - name: owasp/zap2docker-stable
-  variables:
-    MSYSQL_ROOT_PASSWORD: "testpassword"
-    MYSQL_DATABASE: "devops"
+  image: docker:latest
+  stage: zap
+  before_script:
+    - echo "test"
   script:
-    - python manage.py runserver
+    - docker-compose up -d
+    - docker logs -f zap
   tags:
-    - default-docker
+    - default-shell
   only:
     - master
 
