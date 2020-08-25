@@ -68,13 +68,13 @@ py_test:
 test:
   stage: lint
   services:
-    - mysql:5.7
+    - name: mysql:5.7
+      command:
+        - mysql --version
   before_script:
     - echo "owasp test"
   script:
-    - docker --version
-    - docker ps -a
-    - mysql
+    - echo "test"
   tags:
     - default-docker
 
