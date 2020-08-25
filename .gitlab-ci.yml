@@ -71,9 +71,6 @@ py_zap:
   services:
     - name: mysql:5.7
     - name: docker:dind
-    - name: $CI_REGISTRY_IMAGE
-      command:
-        - python manage.py runserver
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
