@@ -65,29 +65,19 @@ py_test:
   except:
     - master
 
-test_docker_build_push:
-  stage: build
-  before_script:
-    - docker --version
-  script:
-    - docker build -t "$CI_REGISTRY_IMAGE" .
-  tags:
-    - default-shell
-  only:
-    - master
-
 py_zap:
   image: owasp/zap2docker-stable
   stage: zap
   services:
     - name: mysql:5.7
+    - name: docker:dind
     - name: $CI_REGISTRY_IMAGE
       command:
-        - python manage.py runerver
+        - python manage.py runserver
   before_script:
-    - echo "test"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - echo "script_test"
+    - echo "test"
   tags:
     - default-docker
   only:
