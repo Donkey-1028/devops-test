@@ -71,7 +71,6 @@ test_docker_build_push:
     - docker --version
   script:
     - docker build -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
   tags:
     - default-shell
   only:
@@ -82,7 +81,7 @@ py_zap:
   stage: zap
   services:
     - name: mysql:5.7
-    - name: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - name: $CI_REGISTRY_IMAGE
       command:
         - python manage.py runerver
   before_script:
