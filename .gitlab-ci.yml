@@ -3,9 +3,6 @@
 # https://hub.docker.com/r/library/python
 image: python:3.7
 
-#include:
-#  - template: Security/SAST.gitlab-ci.yml
-
 stages:
   - lint
   - test
@@ -18,14 +15,6 @@ stages:
 cache:
   paths:
     - ~/.cache/pip/
-
-# This is a basic example for a gem or script which doesn't use
-# services such as redis or postgres
-before_script:
-  - python -V  # Print out python version for debugging
-  # Uncomment next line if your Django app needs a JS runtime:
-  # - apt-get update -q && apt-get install nodejs -yqq
-  - pip install -r requirements.txt
 
 # To get Django tests to work you may need to create a settings file using
 # the following DATABASES:
@@ -46,8 +35,9 @@ before_script:
 
 py_lint:
   stage: lint
-  script:
+  before_script:
     - pip install pylint
+  script:
     - pylint devops
   tags:
     - default-docker
@@ -62,6 +52,8 @@ py_test:
   variables:
     MYSQL_ROOT_PASSWORD: "testpassword"
     MYSQL_DATABASE: "devops"
+  before_script:
+    - pip install -r requirements.txt
   script:
     - python manage.py test
   tags:
@@ -71,8 +63,9 @@ py_test:
 
 py_sast:
   stage: analysis
-  script:
+  before_script:
     - pip install bandit
+  script:
     - bandit -r ./config ./devops
   tags:
     - default-docker
@@ -83,8 +76,6 @@ py_sast:
 py_dast:
   image: docker:latest
   stage: analysis
-  before_script:
-    - echo "test"
   script:
     - docker-compose up -d
     - docker logs -f zap
@@ -96,8 +87,6 @@ py_dast:
 
 docker_build:
   stage: build
-  before_script:
-    - docker --version
   script:
     - docker build -t "$CI_REGISTRY_IMAGE" .
   tags:
