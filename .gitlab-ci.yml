@@ -3,8 +3,8 @@
 # https://hub.docker.com/r/library/python
 image: python:3.7
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
+#include:
+#  - template: Security/SAST.gitlab-ci.yml
 
 stages:
   - lint
@@ -98,6 +98,8 @@ sast:
         "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
   artifacts:
     paths: [gl-sast-report.json]
+  tags:
+    - default-docker
 
 
 #docker_build:
