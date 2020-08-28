@@ -73,7 +73,7 @@ py_sast:
   stage: analysis
   script:
     - pip install bandit
-    - badnit -r ./config
+    - bandit -r ./config
     - bandit -r ./devops
   tags:
     - default-docker
