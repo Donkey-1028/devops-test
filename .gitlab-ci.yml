@@ -73,8 +73,7 @@ py_sast:
   stage: analysis
   script:
     - pip install bandit
-    - bandit -r ./config
-    - bandit -r ./devops
+    - bandit -r ./config ./devops
   tags:
     - default-docker
   allow_failure: true
