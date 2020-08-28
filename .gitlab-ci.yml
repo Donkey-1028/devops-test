@@ -9,7 +9,7 @@ image: python:3.7
 stages:
   - lint
   - test
-  - zap
+  - analysis
   - build
   - push
 
@@ -47,6 +47,7 @@ before_script:
 py_lint:
   stage: lint
   script:
+    - pip install pylint
     - pylint devops
   tags:
     - default-docker
@@ -68,9 +69,19 @@ py_test:
   except:
     - master
 
-py_zap:
+py_sast:
+  stage: analysis
+  script:
+    - pip install bandit
+    - badnit -r ./config
+    - bandit -r ./devops
+  tags:
+    - default-docker
+
+
+py_dast:
   image: docker:latest
-  stage: zap
+  stage: analysis
   before_script:
     - echo "test"
   script:
@@ -81,29 +92,6 @@ py_zap:
     - default-shell
   except:
     - master
-
-sast:
-  image: docker:stable
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  before_script:
-    - echo "sast test"
-  script:
-    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
-    - docker run
-        --env SAST_CONFIDENCE_LEVEL="${SAST_CONFIDENCE_LEVEL:-3}"
-        --volume "$PWD:/code"
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
-  artifacts:
-    paths: [gl-sast-report.json]
-  tags:
-    - default-shell
-
 
 #docker_build:
 #  stage: build
