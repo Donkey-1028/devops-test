@@ -102,7 +102,7 @@ sast:
   artifacts:
     paths: [gl-sast-report.json]
   tags:
-    - default-docker
+    - default-shell
 
 
 #docker_build:
