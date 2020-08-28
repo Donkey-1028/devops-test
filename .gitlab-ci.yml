@@ -36,6 +36,7 @@ cache:
 py_lint:
   stage: lint
   before_script:
+    - pip install requirements.txt
     - pip install pylint
   script:
     - pylint devops
